@@ -1,4 +1,4 @@
-package com.mycompose.android.koin
+package com.compose.koinapp
 
 object ApiConstants {
 

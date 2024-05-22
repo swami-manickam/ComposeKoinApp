@@ -1,7 +1,7 @@
-package com.mycompose.android.koin.data.remote
+package com.compose.koinapp.data.remote
 
-import com.mycompose.android.koin.ApiConstants.GET_MOVIES
-import com.mycompose.android.koin.ApiConstants.GET_MOVIE_DETAIL
+import com.compose.koinapp.ApiConstants.GET_MOVIES
+import com.compose.koinapp.ApiConstants.GET_MOVIE_DETAIL
 import com.compose.koinapp.data.MovieResultRemoteModel
 import com.compose.koinapp.data.MoviesRemoteModel
 import retrofit2.Response

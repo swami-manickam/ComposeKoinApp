@@ -1,7 +1,5 @@
 package com.compose.koinapp.data.remote
 
-import com.mycompose.android.koin.data.remote.ApiService
-
 class RemoteDataSource(private val apiService: ApiService) {
 
 

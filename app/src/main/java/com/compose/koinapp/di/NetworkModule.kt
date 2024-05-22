@@ -1,6 +1,7 @@
 package com.compose.koinapp.di
 
-import com.mycompose.android.koin.data.remote.ApiService
+import com.compose.koinapp.ApiConstants.BASE_URL
+import com.compose.koinapp.data.remote.ApiService
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -20,7 +21,7 @@ fun provideRetrofit(
     okHttpClient: OkHttpClient,
     gsonConverterFactory: GsonConverterFactory
 ): Retrofit {
-    return Retrofit.Builder().baseUrl("").client(okHttpClient)
+    return Retrofit.Builder().baseUrl(BASE_URL).client(okHttpClient)
         .addConverterFactory(gsonConverterFactory).build()
 }
 
