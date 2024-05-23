@@ -1,16 +1,26 @@
 package com.compose.koinapp.di
 
 import com.compose.koinapp.ApiConstants.BASE_URL
+import com.compose.koinapp.BuildConfig
 import com.compose.koinapp.data.remote.ApiService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
+fun provideHttpInterceptor(): HttpLoggingInterceptor {
+    val logging = HttpLoggingInterceptor()
+    logging.setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
+    return logging
+}
+
 fun provideHttpClient(): OkHttpClient {
-    return OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS)
+    return OkHttpClient.Builder().addInterceptor(provideHttpInterceptor())
+        .addInterceptor(RequestInterceptor())
+        .readTimeout(60, TimeUnit.SECONDS)
         .connectTimeout(60, TimeUnit.SECONDS).build()
 }
 
@@ -31,6 +41,6 @@ fun provideService(retrofit: Retrofit): ApiService = retrofit.create(ApiService:
 val networkModule = module {
     single { provideHttpClient() }
     single { provideConverterFactory() }
-    single { provideRetrofit(get(),get()) }
+    single { provideRetrofit(get(), get()) }
     single { provideService(get()) }
 }

@@ -22,19 +22,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.compose.koinapp.data.MovieResultRemoteModel
-import com.compose.koinapp.data.MoviesRemoteModel
+import com.compose.koinapp.data.entities.MoviesResultData
+import com.compose.koinapp.data.entities.MoviesResultDetail
 import com.compose.koinapp.presentation.ui.components.CustomToolbarScreen
 import com.compose.koinapp.presentation.ui.components.ProgressLoader
 import com.compose.koinapp.presentation.viewmodel.MovieViewModel
 import com.compose.koinapp.utils.Routes.getSecondScreenPath
 import com.compose.koinapp.utils.UiState
-import androidx.compose.ui.layout.ContentScale
 
 
 @Composable
@@ -60,10 +60,9 @@ fun HomeScreen(navigation: NavController, mainViewModel: MovieViewModel) {
             when (state.value) {
                 is UiState.Success -> {
                     ProgressLoader(isLoading = false)
-                    (state.value as UiState.Success<MoviesRemoteModel>).data?.let {
+                    (state.value as UiState.Success<MoviesResultDetail>).data?.let {
                         it.results?.let { it1 ->
                             MovieList(movies = it1) { recipe ->
-                                // Handle recipe click here
                                 navigation.navigate(getSecondScreenPath(recipe.id))
                             }
                         }
@@ -86,7 +85,7 @@ fun HomeScreen(navigation: NavController, mainViewModel: MovieViewModel) {
 }
 
 @Composable
-fun MovieListCard(movie: MovieResultRemoteModel, onMovieClick: (MovieResultRemoteModel) -> Unit) {
+fun MovieListCard(movie: MoviesResultData, onMovieClick: (MoviesResultData) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -102,7 +101,7 @@ fun MovieListCard(movie: MovieResultRemoteModel, onMovieClick: (MovieResultRemot
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = rememberAsyncImagePainter(movie.backdropPath),
+                painter = rememberAsyncImagePainter(movie.posterPath),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
@@ -141,8 +140,8 @@ fun MovieListCard(movie: MovieResultRemoteModel, onMovieClick: (MovieResultRemot
 
 @Composable
 fun MovieList(
-    movies: List<MovieResultRemoteModel>,
-    onMovieClick: (MovieResultRemoteModel) -> Unit
+    movies: List<MoviesResultData>,
+    onMovieClick: (MoviesResultData) -> Unit
 ) {
     LazyColumn {
         items(movies) { movie ->
@@ -151,7 +150,7 @@ fun MovieList(
     }
 }
 
+// Call the function to fetch movie list
 private fun getMovieListAPI(mainViewModel: MovieViewModel) {
-    // Call the function to fetch recipes
     mainViewModel.getMoviesList()
 }

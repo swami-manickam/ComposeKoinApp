@@ -34,3 +34,33 @@ inline fun <reified T> toResultFlow(context: Context,
     }.flowOn(Dispatchers.IO)
 
 }
+
+
+inline fun <reified T,R> toTransformResultFlow(context: Context,
+                                      crossinline call : suspend () -> Response<T>,
+                                      crossinline transform :(T) -> R
+) : Flow<UiState<R>>{
+    return flow {
+        val isConnected = UiUtils.hasInternetConnection(context)
+
+        if(isConnected) {
+            emit(UiState.Loading)
+            try {
+                val response = call()
+                if(response.isSuccessful && response.body()!=null){
+                    val transformedData = transform(response.body()!!)
+                    emit(UiState.Success(transformedData))
+                }
+                else
+                    emit(UiState.Error(response.message()))
+
+            }catch (e : Exception){
+                emit(UiState.Error(e.toString()))
+            }
+        }else {
+            emit(UiState.Error(""))
+        }
+
+    }.flowOn(Dispatchers.IO)
+
+}
