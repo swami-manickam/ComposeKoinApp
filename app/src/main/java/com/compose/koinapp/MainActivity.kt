@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.compose.koinapp.presentation.navigation.AppNavigation
 import com.compose.koinapp.presentation.navigation.Navigation
 import com.compose.koinapp.ui.theme.KoinComposeAppTheme
 
@@ -23,7 +24,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                   Navigation()
+                   //Navigation()
+
+                    AppNavigation()
                 }
             }
         }

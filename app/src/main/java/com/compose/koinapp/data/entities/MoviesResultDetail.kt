@@ -1,14 +1,13 @@
-package com.compose.koinapp.data
+package com.compose.koinapp.data.entities
 
-
-data class MoviesRemoteModel(
+data class MoviesResultDetail(
     var page: Int? = null,
-    var results: List<MovieResultRemoteModel>? = null,
+    var results: List<MoviesResultData>? = null,
     var totalPages: Int? = null,
     var totalResults: Int? = null,
 )
 
-data class MovieResultRemoteModel(
+data class MoviesResultData(
     var adult: Boolean? = null,
     var backdropPath: String? = null,
     var genreIds: List<Int>? = null,
