@@ -1,13 +1,13 @@
-package com.compose.koinapp.data.entities
+package com.compose.koinapp.domain.entities
 
-data class MoviesResultDetail(
+data class MoviesResultList(
     var page: Int? = null,
-    var results: List<MoviesResultData>? = null,
+    var results: List<MoviesResultDataList>? = null,
     var totalPages: Int? = null,
     var totalResults: Int? = null,
 )
 
-data class MoviesResultData(
+data class MoviesResultDataList(
     var adult: Boolean? = null,
     var backdropPath: String? = null,
     var genreIds: List<Int>? = null,

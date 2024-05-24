@@ -2,25 +2,24 @@ package com.compose.koinapp.presentation.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import com.compose.koinapp.data.model.MoviesRemoteModel
-import com.compose.koinapp.data.Repository
-import com.compose.koinapp.data.entities.MoviesResultData
-import com.compose.koinapp.data.entities.MoviesResultDetail
+import com.compose.koinapp.domain.Repository
+import com.compose.koinapp.domain.entities.MovieDetail
+import com.compose.koinapp.domain.entities.MoviesResultDataList
+import com.compose.koinapp.domain.entities.MoviesResultList
 import com.compose.koinapp.utils.UiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MovieViewModel(private val repository: Repository, application: Application) :
     BaseViewModel(application) {
 
-    val _uiStateMovieList = MutableStateFlow<UiState<MoviesResultDetail>>(UiState.Loading)
-    val uiStateMovieList: StateFlow<UiState<MoviesResultDetail>> = _uiStateMovieList
+    val _uiStateMovieList = MutableStateFlow<UiState<MoviesResultList>>(UiState.Loading)
+    val uiStateMovieList: StateFlow<UiState<MoviesResultList>> = _uiStateMovieList
 
 
-    val _movieDetailState = MutableStateFlow<UiState<MoviesResultData>>(UiState.Loading)
-    val movieDetailState: StateFlow<UiState<MoviesResultData>> = _movieDetailState
+    val _movieDetailState = MutableStateFlow<UiState<MovieDetail>>(UiState.Loading)
+    val movieDetailState: StateFlow<UiState<MovieDetail>> = _movieDetailState
 
 
     fun getMoviesList() = viewModelScope.launch {
@@ -37,8 +36,6 @@ class MovieViewModel(private val repository: Repository, application: Applicatio
                 is UiState.Error -> {
                     _uiStateMovieList.value = UiState.Error(it.message)
                 }
-
-                else -> {}
             }
         }
     }

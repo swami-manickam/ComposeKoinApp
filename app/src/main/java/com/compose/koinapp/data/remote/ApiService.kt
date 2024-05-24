@@ -3,11 +3,12 @@ package com.compose.koinapp.data.remote
 import com.compose.koinapp.ApiConstants
 import com.compose.koinapp.ApiConstants.GET_MOVIES
 import com.compose.koinapp.ApiConstants.GET_MOVIE_DETAIL
-import com.compose.koinapp.data.model.MovieResultRemoteModel
+import com.compose.koinapp.data.model.MovieDetailRemoteModel
 import com.compose.koinapp.data.model.MoviesRemoteModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -19,9 +20,9 @@ interface ApiService {
         @Query(ApiConstants.PAGE) page: Int
     ): Response<MoviesRemoteModel>
 
-    @GET(GET_MOVIE_DETAIL)
+    @GET("$GET_MOVIE_DETAIL/{movieId}")
     suspend fun getMovieDetail(
         @Header(ApiConstants.AUTHORIZATION) authToken: String,
-        @Query(ApiConstants.MOVIE_ID) movieId: Int): Response<MovieResultRemoteModel>
+        @Path(ApiConstants.MOVIE_ID) movieId: Int): Response<MovieDetailRemoteModel>
 
 }
