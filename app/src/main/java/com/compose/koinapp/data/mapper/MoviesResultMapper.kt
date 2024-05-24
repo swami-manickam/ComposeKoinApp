@@ -1,15 +1,15 @@
 package com.compose.koinapp.data.mapper
 
 import com.compose.koinapp.ApiConstants
-import com.compose.koinapp.data.entities.MoviesResultData
-import com.compose.koinapp.data.entities.MoviesResultDetail
+import com.compose.koinapp.domain.entities.MoviesResultDataList
+import com.compose.koinapp.domain.entities.MoviesResultList
 import com.compose.koinapp.data.model.MovieResultRemoteModel
 import com.compose.koinapp.data.model.MoviesRemoteModel
 
 
 fun MoviesRemoteModel.toMovieResultModel():
-        MoviesResultDetail {
-    return MoviesResultDetail(
+        MoviesResultList {
+    return MoviesResultList(
         page = this.page,
         results = results?.toResultPayloadPojo(),
         totalPages = totalPages,
@@ -18,7 +18,7 @@ fun MoviesRemoteModel.toMovieResultModel():
 
 }
 
-fun MovieResultRemoteModel.toResultPojo() = MoviesResultData(
+fun MovieResultRemoteModel.toResultPojo() = MoviesResultDataList(
     adult = this.adult,
     backdropPath = this.backdrop_path,
     genreIds = this.genre_ids,
@@ -32,5 +32,5 @@ fun MovieResultRemoteModel.toResultPojo() = MoviesResultData(
     releaseDate = this.release_date
 )
 
-fun Iterable<MovieResultRemoteModel>.toResultPayloadPojo(): List<MoviesResultData> =
+fun Iterable<MovieResultRemoteModel>.toResultPayloadPojo(): List<MoviesResultDataList> =
     this.map { it.toResultPojo() }
