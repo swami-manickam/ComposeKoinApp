@@ -1,22 +1,18 @@
-package com.compose.koinapp.data
+package com.compose.koinapp.domain
 
 import android.content.Context
-import com.compose.koinapp.data.entities.MoviesResultData
-import com.compose.koinapp.data.entities.MoviesResultDetail
+import com.compose.koinapp.data.mapper.toMovieDetailModel
 import com.compose.koinapp.data.mapper.toMovieResultModel
-import com.compose.koinapp.data.mapper.toResultPojo
-import com.compose.koinapp.data.model.MovieResultRemoteModel
-import com.compose.koinapp.data.model.MoviesRemoteModel
 import com.compose.koinapp.data.remote.RemoteDataSource
-import com.compose.koinapp.data.remote.toResultFlow
 import com.compose.koinapp.data.remote.toTransformResultFlow
+import com.compose.koinapp.domain.entities.MovieDetail
+import com.compose.koinapp.domain.entities.MoviesResultList
 import com.compose.koinapp.utils.UiState
 import kotlinx.coroutines.flow.Flow
 
 class Repository(private val remoteDataSource: RemoteDataSource) {
 
-
-    suspend fun getMovies(context: Context): Flow<UiState<MoviesResultDetail>> {
+    suspend fun getMovies(context: Context): Flow<UiState<MoviesResultList>> {
         return toTransformResultFlow(context, {
             remoteDataSource.getMovies()
         }){
@@ -25,11 +21,11 @@ class Repository(private val remoteDataSource: RemoteDataSource) {
     }
 
 
-    suspend fun getMovieDetail(context: Context, movieId: Int) : Flow<UiState<MoviesResultData>> {
+    suspend fun getMovieDetail(context: Context, movieId: Int) : Flow<UiState<MovieDetail>> {
         return toTransformResultFlow(context,{
             remoteDataSource.getMovieDetail(movieId)
         }){
-            response -> response.toResultPojo()
+            response -> response.toMovieDetailModel()
         }
 
     }

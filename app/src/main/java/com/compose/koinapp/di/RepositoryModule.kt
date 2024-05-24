@@ -1,6 +1,6 @@
 package com.compose.koinapp.di
 
-import com.compose.koinapp.data.Repository
+import com.compose.koinapp.domain.Repository
 import org.koin.dsl.module
 
 
