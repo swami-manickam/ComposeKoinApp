@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.compose.koinapp.data.entities.MoviesResultData
-import com.compose.koinapp.data.entities.MoviesResultDetail
+import com.compose.koinapp.domain.entities.MoviesResultDataList
+import com.compose.koinapp.domain.entities.MoviesResultList
 import com.compose.koinapp.presentation.ui.components.CustomToolbarScreen
 import com.compose.koinapp.presentation.ui.components.ProgressLoader
 import com.compose.koinapp.presentation.viewmodel.MovieViewModel
@@ -60,7 +60,7 @@ fun HomeScreen(navigation: NavController, mainViewModel: MovieViewModel) {
             when (state.value) {
                 is UiState.Success -> {
                     ProgressLoader(isLoading = false)
-                    (state.value as UiState.Success<MoviesResultDetail>).data?.let {
+                    (state.value as UiState.Success<MoviesResultList>).data?.let {
                         it.results?.let { it1 ->
                             MovieList(movies = it1) { recipe ->
                                 navigation.navigate(getSecondScreenPath(recipe.id))
@@ -85,7 +85,7 @@ fun HomeScreen(navigation: NavController, mainViewModel: MovieViewModel) {
 }
 
 @Composable
-fun MovieListCard(movie: MoviesResultData, onMovieClick: (MoviesResultData) -> Unit) {
+fun MovieListCard(movie: MoviesResultDataList, onMovieClick: (MoviesResultDataList) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -140,8 +140,8 @@ fun MovieListCard(movie: MoviesResultData, onMovieClick: (MoviesResultData) -> U
 
 @Composable
 fun MovieList(
-    movies: List<MoviesResultData>,
-    onMovieClick: (MoviesResultData) -> Unit
+    movies: List<MoviesResultDataList>,
+    onMovieClick: (MoviesResultDataList) -> Unit
 ) {
     LazyColumn {
         items(movies) { movie ->
